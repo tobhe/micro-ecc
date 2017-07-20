@@ -5,7 +5,19 @@
 
 #include "types.h"
 
-#if (defined(_WIN32) || defined(_WIN64))
+#if (defined(RIOTBASE))
+/* RIOT OS*/
+
+#include "random.h"
+
+static int default_RNG(uint8_t *dest, unsigned size) {
+
+    random_bytes(dest, (size_t) size);
+    return 1;
+}
+#define default_RNG_defined 1
+
+#elif (defined(_WIN32) || defined(_WIN64))
 /* Windows */
 
 // use pragma syntax to prevent tweaking the linker script for getting CryptXYZ function
